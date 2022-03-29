@@ -4,11 +4,22 @@
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build"
+    "build": "vue-cli-service build",
+    "test": "mocha --reporter spec"
   },
   "dependencies": {
+    "axios": "^0.26.1",
+    "chai": "^4.3.6",
+    "chai-http": "^4.3.0",
+    "chart.js": "^3.7.1",
+    "cheerio": "^1.0.0-rc.10",
     "core-js": "^3.8.3",
-    "vue": "^3.2.13"
+    "firebase": "^9.6.9",
+    "firebase-functions": "^3.19.0",
+    "fs": "^0.0.1-security",
+    "vue": "^3.2.13",
+    "vue-chartkick": "^1.1.0",
+    "vue-router": "^4.0.14"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~5.0.0",
