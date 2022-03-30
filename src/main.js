@@ -5,6 +5,7 @@ import routes from './router/routes';
 import VueChartkick from 'vue-chartkick'
 import 'chartkick/chart.js'
 
+
 let router = createRouter({
     history: createWebHistory(),
     routes: routes

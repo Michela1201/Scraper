@@ -1,16 +1,39 @@
 <template>
-  <div>
-    <img class="logo" src="../assets/logo.png" />
-  <div class="nav">
-    <router-link to="/">Home</router-link>
-    <router-link to="/AboutUs">About Us</router-link>
-    <a href="#">Contact Us</a>
-    <router-link to="/SignUp">Sign Up</router-link>
-    <a style="float: right" v-on:click="logout" href="#">Logout</a>
-  </div>
-  <br>
-  </div>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
+  
+  <nav class="navbar navbar-expand-lg navbar-light bg-light" style="padding: 0; margin: 0; border: none;">
+    <div class="container-fluid">
+
+      <img class="navbar-brand-img" src="../assets/favicon.png" />
+      <a class="navbar-brand" href="#" style="padding-left: 30px; pointer-events: none;">PriceScanner</a>
+
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <router-link to="/">Home</router-link>
+          </li>
+
+          <li class="nav-item">
+            <a a href="#">About Us</a>
+          </li>
+
+          <li class="nav-item">
+            <a a href="#">Contact</a>
+          </li>
+
+          <li class="nav-item">
+            <a v-on:click="logout" href="#">Logout</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
 </template>
+
 
 <script>
 export default {
@@ -26,14 +49,15 @@ export default {
 
 
 <style scoped>
-.nav {
+.container-fluid {
   background-color: #2196F3;
   overflow: hidden;
 }
 
-.nav a {
+.container-fluid a,
+.navbar-brand {
   float: left;
-  color: white;
+  color: gold;
   padding: 14px 14px;
   text-align: centre;
   font-size: 17px;
@@ -41,16 +65,16 @@ export default {
   margin-right: 5px;
 }
 
-.nav a:hover {
-  color: black;
+.container-fluid a:hover {
+  color: white;
   background-color: #0b7dda;
+  border-radius: 30px;
 }
 
-body {
-  background: whitesmoke;
-  padding: 0;
-  margin:0;
+.navbar-brand-img {
+  width: 30px;
+  height: 35px;
 }
 
-
+@import "~bootstrap/dist/css/bootstrap.css";
 </style>

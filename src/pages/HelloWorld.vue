@@ -1,23 +1,67 @@
 <template>
-  <body>
-    <form action="action_page.php" style="margin:auto;max-width:500px">
-      <input type="text" v-model="address" placeholder="Type the URL of your product" name="search">
+  <div class="search">
+    <form>
+      <input type="text" v-model="address" placeholder="Type the URL of your product">
       <button type="button" @click="getWebsiteData">Search</button>
     </form>
-    <br>
+  </div>
 
-    <h1>{{title}}</h1>
-    <h2>{{price}}</h2>
-    <ul v-for="(item,index) in descr" :key="index">
-      <li>{{descr[index]}}</li>
-    </ul>
-    <img v-bind:src="image">
+  <h1 style="font-size:45px; font-weight: lighter;">Start scanning to start saving!</h1>
+  <div class="info">
+    <h1 style="padding-bottom: 20px">{{title}}</h1>
 
-    <!--<line-chart :data="[{name: 'Price', data: {'2017-01-01 00:00:00 -0800': 3, '2017-01-02 00:00:00 -0800': 4}}]" :colors="['#b00', '#666']" :curve="false" prefix="$" :round="2" :zeros="true"></line-chart>-->
-    
+    <div class="image">
+      <img v-bind:src="image">
+    </div>
 
-  </body>
+    <div class="text">   
+      <h2>{{price}}</h2>
+      <ul v-for="(item,index) in descr" :key="index">
+        <li>{{descr[index]}}</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="history">
+      <div class="graph">
+        <line-chart :data="priceHist" :colors="['#2196F3', '#666']" :curve="false" prefix="$" :round="2" :zeros="true"></line-chart>
+      </div>
+      <div class="stats">
+
+        <table>
+          <tr>
+            <th></th>
+            <th>Price</th>
+            <th>Date</th>
+          </tr>
+          <tr>
+            <td>Current</td>
+            <td>{{price}}</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>Maximum</td>
+            <td>{{max}}</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>Minimum</td>
+            <td>{{min}}</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>Average</td>
+            <td></td>
+            <td></td>
+          </tr>
+        </table>
+
+
+      </div>
+    </div>
+  <br>
 </template>
+
 
 <script>
 import app from '../api/firebase';
@@ -25,8 +69,6 @@ import { getFunctions, httpsCallable, connectFunctionsEmulator} from "firebase/f
 
 const axios = require('axios')
 const cheerio = require('cheerio')
-
-
 
 export default {
   name: 'HelloWorld',
@@ -38,12 +80,14 @@ export default {
       descr:[],
       image:'',
       date: [],
-      priceHist: []
+      priceHist: {},
+      min:'',
+      max:'',
+      items: {}
     }
   },
   methods: {
     getWebsiteData(){
-      
       let self = this;
       let url = self.address;
       let title = '';
@@ -57,8 +101,6 @@ export default {
       })
       .then(function (response) {
         let html = response.data;
-
-        let currDate = new Date();
 
         let $ = cheerio.load(html);
         
@@ -76,38 +118,63 @@ export default {
         self.price = price;
         self.image = image;
         self.descr = descr;
-        self.priceHist = ["55", "49", "67", "60"];
-        self.date = ["3/4/5", "4/4/5", "5/4/5", "6/4/5"];
         self.address = '';
 
         if (self.title != "") {
           self.saveItem();
-          
         }
+
         
-console.log(self.priceHist);
-console.log(self.date);
-
       });
-
     },
+
     saveItem(){
       const functions = getFunctions(app);
       const saveItem = httpsCallable(functions, 'saveItem');
       saveItem({"Title": this.title, "Price": this.price, "Description": this.descr}).then((result) => {
         console.log(result);
       });
+
+      let self = this;
+      self.getItems();
     },
 
 
 
 
 
-
-    
-    
     getItems(){
-      c
+      let self = this;
+      let items = {};
+
+      //TODO
+      const functions = getFunctions(app);
+      const getItems = httpsCallable(functions, 'getItems');
+      getItems().then((result) => {
+        console.log(result);
+        
+        items = result.data;
+
+      })
+      console.log(items);
+
+
+
+
+
+      
+      var prices = [3, 5 , 4];
+      var dates = [1, 2, 3];
+      var data = {};
+      for (var i = 0; i < dates.length && i < prices.length; i++) {
+        data[dates[i]] = prices[i];
+      }
+
+      self.min = Math.min.apply(null, prices);
+      self.max = Math.max.apply(null, prices);
+      self.priceHist = data;
+
+      
     },
 
     mounted(){
@@ -116,134 +183,94 @@ console.log(self.date);
   }
 }
 
-
-
 </script>
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+.search {
+  background-color: #2196F3;
+  overflow: hidden;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
 
-/* Style the search field */
-form input[type=text] {
-  padding: 10px;
+form {
+  float: center;
   font-size: 17px;
-  border: 1px solid grey;
-  float: left;
-  width: 80%;
-  background: #f1f1f1;
+}
+input {
+  padding: 10px;
+  width: 30%;
   border-radius: 30px;
+  border: none;
 }
-
-/* Style the submit button */
 button {
+  margin-left: 1%;
   padding: 10px;
+  width: 5%;
+  border-radius: 30px;
+  border: none;
   background: #2196F3;
-  color: white;
-  font-size: 17px;
-  border: 1px solid grey;
+  color: gold;
 }
-
-form button {
-  width: 20%;
-}
-
 button:hover {
   background: #0b7dda;
-  border-left: none;
+  color: white;
 }
 
-/* Clear floats */
-::after {
-  content: "";
-  clear: both;
-  display: table;
+.info {
+  padding: 50px;
+  padding-top: 20px;
+}
+h1 {
+  font-size: 30px;
 }
 
 img {
   height: 200px;
 }
+.image {
+  width: 40%;
+  float: left;
+}
 
-body {
-        margin: 0;
-        padding: 0;
-        width:100vw;
-        height: 100vh;
-        background-color: #eee;
-    }
-    .content {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        width:100%;
-        height:100%;
-    }
-    .loader-wrapper {
-        width: 100%;
-        height: 100%;
-        position: absolute;
-        top: 0;
-        left: 0;
-        background-color: #242f3f;
-        display:flex;
-        justify-content: center;
-        align-items: center;
-    }
-    .loader {
-        display: inline-block;
-        width: 30px;
-        height: 30px;
-        position: relative;
-        border: 4px solid #Fff;
-        animation: loader 2s infinite ease;
-    }
-    .loader-inner {
-        vertical-align: top;
-        display: inline-block;
-        width: 100%;
-        background-color: #fff;
-        animation: loader-inner 2s infinite ease-in;
-    }
+.text {
+  width: 60%;
+  float: right;
+}
+h2 {
+  font-size: 25px;
+  text-align: right;
+  padding-right: 100px;
+  margin-top: 0;
+}
+ul {
+  text-align: left;
+  padding-top: 5px;
+  margin: 0;
+  list-style-type: none;
+}
 
-    @keyframes loader {
-        0% { transform: rotate(0deg);}
-        25% { transform: rotate(180deg);}
-        50% { transform: rotate(180deg);}
-        75% { transform: rotate(360deg);}
-        100% { transform: rotate(360deg);}
-    }
-
-    @keyframes loader-inner {
-        0% { height: 0%;}
-        25% { height: 0%;}
-        50% { height: 100%;}
-        75% { height: 100%;}
-        100% { height: 0%;}
-    }
-
+.history {
+  padding: 50px;
+}
+.graph {
+  width: 60%;
+  float: left;
+}
+.stats {
+  width: 40%;
+  float: right;
+  padding-right: 100px;
+}
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+td, th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
 </style>
-
-
-
-
-
-
-
-
-
-
-

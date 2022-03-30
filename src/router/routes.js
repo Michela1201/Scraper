@@ -9,8 +9,8 @@ export default [
         component: loadPage('HelloWorld')
     },
     {
-        path: '/AboutUs',
-        component: loadPage('AboutUs')
+        path: '/Login',
+        component: loadPage('Login')
     },
     {
         path: '/SignUp',
