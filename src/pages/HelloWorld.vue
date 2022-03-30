@@ -22,7 +22,7 @@
     </div>
   </div>
 
-  <div class="history">
+  <div class="history" id="history" style="display:none">
       <div class="graph">
         <line-chart :data="priceHist" :colors="['#2196F3', '#666']" :curve="false" prefix="$" :round="2" :zeros="true"></line-chart>
       </div>
@@ -50,8 +50,8 @@
             <td></td>
           </tr>
           <tr>
-            <td>Average</td>
-            <td></td>
+            <td>Mean</td>
+            <td>{{mean}}</td>
             <td></td>
           </tr>
         </table>
@@ -83,6 +83,7 @@ export default {
       priceHist: {},
       min:'',
       max:'',
+      mean:'',
       items: []
     }
   },
@@ -94,6 +95,8 @@ export default {
       let price = [];
       let descr = [];
       let image = '';
+
+      console.log("test");
 
       axios({
         method: 'get',
@@ -144,10 +147,6 @@ export default {
       self.getItems();
     },
 
-
-
-
-
     getItems(){
       let self = this;
       let items = [];
@@ -189,13 +188,22 @@ export default {
       console.log("date", self.date);
       console.log("items", self.items);
 
+      var average = '';
       for (var i = 0; i < dates.length && i < prices.length; i++) {
         data[dates[i]] = prices[i];
+        average = +average + +prices[i];
       }
 
+      self.mean = average / prices.length;
       self.min = Math.min.apply(null, prices);
       self.max = Math.max.apply(null, prices);
       self.priceHist = data;
+
+      self.showDiv()
+    },
+
+    showDiv() {
+      document.getElementById('history').style.display = "block";
     },
 
     mounted(){

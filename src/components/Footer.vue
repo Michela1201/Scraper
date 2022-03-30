@@ -1,7 +1,7 @@
 <template>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
   
-  <footer class="text-white text-center text-lg-start bg-primary">
+  <footer class="text-white text-center text-lg-start bg-primary" id="foot">
       <div class="container p-4">
         <div class="row mt-4">
           <div class="col1">
@@ -34,7 +34,7 @@
             </p>
             <div class="mt-4">
               <a href="https://www.facebook.com/" class="fa fa-facebook"></a>
-              <a href="https://www.twitter.com/" class="fa fa-twitter"></a>
+              <a href="https://twitter.com/barrettenda" class="fa fa-twitter"></a>
               <a href="https://www.google.com/" class="fa fa-google"></a>
               <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" class="fa fa-youtube"></a>
             </div>
@@ -61,6 +61,14 @@ export default {
 
 <style>
 @import "~bootstrap/dist/css/bootstrap.css";
+
+#foot {
+  position:absolute;
+  bottom: -900px;
+  width:100%;
+  height:300px;   /* Height of the footer */
+  background:blue;
+}
 
 h5 {
   color: gold;
