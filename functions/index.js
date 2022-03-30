@@ -36,7 +36,6 @@ exports.saveItem = functions.https.onRequest((request, response) => {
 
 
 
-
 exports.getItems = functions.https.onRequest((request, response) => {
     cors(request,response, () => {
         // 1. Connect to our Firestore database
@@ -48,10 +47,10 @@ exports.getItems = functions.https.onRequest((request, response) => {
                 return;
             }
             snapshot.forEach(doc => {
-                myData.push(Object.assign(doc.data(), {id:doc.id}));
+                myData.push(doc.data());
             });
             // 2. Send data back to client
-            response.send(myData);
+            response.status(200).send({data: myData});
         });
     });
 });
