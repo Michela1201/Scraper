@@ -1,13 +1,31 @@
 <template>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
-  
-  <nav class="navbar navbar-expand-lg navbar-light bg-light" style="padding: 0; margin: 0; border: none;">
-    <div class="container-fluid">
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+  />
 
+  <nav
+    class="navbar navbar-expand-lg navbar-light bg-light"
+    style="padding: 0; margin: 0; border: none"
+  >
+    <div class="container-fluid" id="page-top">
       <img class="navbar-brand-img" src="../assets/favicon.png" />
-      <a class="navbar-brand" href="#" style="padding-left: 30px; pointer-events: none;">PriceScanner</a>
+      <a
+        class="navbar-brand"
+        href="#"
+        style="padding-left: 30px; pointer-events: none"
+        >PriceScanner</a
+      >
 
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarNav"
+        aria-controls="navbarNav"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
         <span class="navbar-toggler-icon"></span>
       </button>
 
@@ -18,11 +36,11 @@
           </li>
 
           <li class="nav-item">
-            <a a href="#">About Us</a>
+            <a a href="#page-bottom">About Us</a>
           </li>
 
           <li class="nav-item">
-            <a a href="#">Contact</a>
+            <a a href="#page-bottom">Contact Us</a>
           </li>
 
           <li class="nav-item">
@@ -50,7 +68,7 @@ export default {
 
 <style scoped>
 .container-fluid {
-  background-color: #2196F3;
+  background-color: #2196f3;
   overflow: hidden;
 }
 
